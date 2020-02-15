@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>查询页</title>
+    <script src="https://cdn.bootcss.com/jquery/3.0.0/jquery.min.js"></script>
+    <script type="text/javascript" src="https://assets.pyecharts.org/assets/echarts.min.js"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="/static/css/all.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- overlayScrollbars -->
+    <link rel="stylesheet" href="/static/css/adminlte.css">
+    <!-- Google Font: Source Sans Pro -->
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+</head>
+<body>
+
+<!-- Site wrapper -->
+<div class="wrapper" style="margin-left:200px;margin-top: 50px">
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1>预测结果查询</h1>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item"><a href="#">Home</a></li>
+                            <li class="breadcrumb-item active">选择模型</li>
+                        </ol>
+                    </div>
+                </div>
+            </div><!-- /.container-fluid -->
+        </section>
+
+        <!-- Main content -->
+        <section class="content">
+            <div class="">
+                <div class="">
+                    <div class="card card-primary">
+                        <div class="card-header">
+                            <h3 class="card-title">模型选择</h3>
+
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse"
+                                        data-toggle="tooltip"
+                                        title="Collapse">
+                                    <i class="fas fa-minus"></i></button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <form method="post" action="/query/">
+
+                                <div class="form-group">
+                                    <label for="inputName">商品ID</label>
+                                    <label><input name="sku_id" type="text" id="inputName" class="form-control"
+                                                  value="" style="margin-left: 10px;width: 300px"></label>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="inputStatus">算法 </label>
+                                    <label>
+                                        <select name="algor" class="form-control custom-select" style="margin-left: 29px;width: 300px">
+                                            <option selected disabled>选择一个算法</option>
+                                            <option selected value="FOA-LightGBM">FOA-LightGBM</option>
+                                            <option value="FOA-XGB">FOA-XGB</option>
+                                            <option value="FOA-LR">FOA-LR</option>
+                                            <option value="LightGBM">LightGBM</option>
+                                            <option value="XGB">XGB</option>
+                                            <option value="LR">LR</option>
+                                            <option value="SVM">SVM</option>
+                                            <option value="real">真实数据</option>
+                                            <option value="all">对比数据</option>
+
+                                        </select>
+                                    </label>
+                                </div>
+                                <div class="col-12">
+                                    <a href="#" class="btn btn-secondary" onclick="function clearAll() {
+                                    document.getElementById('inputName').value ='';
+                                    {#js重置select使其选中第一个option#}
+                                    document.getElementsByName('algor')[0].selectedIndex=0;
+                                    }
+                                    clearAll()">清空</a>
+                                    <button type="submit" class="btn btn-info float-right">查询</button>
+
+                                </div>
+                            </form>
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+                    <!-- /.card -->
+                </div>
+
+            </div>
+            <div class="row">
+
+            </div>
+        </section>
+        <!-- /.content -->
+    </div>
+    <!-- /.content-wrapper -->
+
+    <!-- Control Sidebar -->
+    <aside class="control-sidebar control-sidebar-dark">
+        <!-- Control sidebar content goes here -->
+    </aside>
+    <!-- /.control-sidebar -->
+</div>
+<!-- ./wrapper -->
+
+<!-- jQuery -->
+<script src="/static/js/jquery.min.js"></script>
+<!-- Bootstrap 4 -->
+<script src="/static/js/bootstrap.bundle.min.js"></script>
+<!-- AdminLTE App -->
+<script src="/static/js/adminlte.min.js"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="/static/js/demo.js"></script>
+
+
+
+</body>
+</html>

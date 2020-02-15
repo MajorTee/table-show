@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>查询结果</title>
+    <script src="https://cdn.bootcss.com/jquery/3.0.0/jquery.min.js"></script>
+    <script type="text/javascript" src="https://assets.pyecharts.org/assets/echarts.min.js"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="/static/css/all.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- overlayScrollbars -->
+    <link rel="stylesheet" href="/static/css/adminlte.css">
+    <!-- Google Font: Source Sans Pro -->
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+
+</head>
+<body>
+<div class="small-box bg-info content" style="margin-left:200px;margin-top: 50px;width: 800px">
+    <div class="inner" style="margin-bottom:30px;">
+        {% if not sku_id %}
+            <h3>请输入商品sku_id！</h3>
+        {% elif not hit %}
+            <h3>没有此商品</h3>
+        {% else %}
+            <h3>ID：{{ sku_id }}</h3>
+            <p>算法：{{ algor }}</p>
+        {% endif %}
+    </div>
+    <div class="col-12 my_cc">
+        <button type="submit" class="btn btn-info " style="margin-left: 700px" onclick="window.location.href='/'">返回
+        </button>
+    </div>
+</div>
+
+<br/>
+{% if sku_id %}
+    {% if hit %}
+        <div class="card card-primary card-outline" style="margin-left:200px;margin-top:100px;width: 800px">
+            <div class="card-header">
+                <h3 class="card-title">
+                    <i class="far fa-chart-bar"></i>
+                    未来5周销量预测
+                </h3>
+
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse"><i
+                            class="fas fa-minus"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="card-body">
+                <div id="bar" style="height: 400px;width: 800px"></div>
+            </div>
+            <!-- /.card-body-->
+        </div>
+    {% endif %}
+{% endif %}
+
+
+<script>
+    const chart = echarts.init(document.getElementById('bar'), 'white', {renderer: 'canvas'});
+
+    $(
+        function () {
+            fetchData(chart);
+        }
+    );
+
+    function fetchData() {
+        $.ajax({
+            type: "GET",
+            url: "http://127.0.0.1:8000/bar/",
+            dataType: 'json',
+            success: function (result) {
+                chart.setOption(result.data);
+            }
+        });
+    }
+</script>
+
+
+<!-- jQuery -->
+<script src="/static/js/jquery.min.js"></script>
+<!-- Bootstrap 4 -->
+<script src="/static/js/bootstrap.bundle.min.js"></script>
+<!-- AdminLTE App -->
+<script src="/static/js/adminlte.min.js"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="/static/js/demo.js"></script>
+
+</body>
+</html>
