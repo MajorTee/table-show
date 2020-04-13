@@ -50,14 +50,34 @@ from pyecharts.charts import Line
 #     return render(request, 'show_data/index.html', {'content': 'hello hello', 'list': list(range(1, 5))})
 
 
-# def index2(request):
-#     # 和M T进行交互
-#     return HttpResponse('222')
+# def relation(request):
+#     if request.method == 'POST':
+#         sku_id = request.POST.get('goods_id')
+#         global algor
+#         algor = request.POST.get('algor')
+#         objects_filter = DataInfo.objects.filter(goodsID=goods_id).values()
+#         if not objects_filter.exists():
+#             hit_yes = False
+#         else:
+#             hit_yes = True
+#             sale_data = objects_filter[0]
+#
+#             sku_data = str_to_list(sale_data['sku_id'])
+#
+#             global flgb_data
+#             flgb_data = str_to_list(sale_data['FLGB_data'])
+#
+#     return render(request, 'show_data/relation_show.html', {'hit': hit_yes, 'sku_id': sku_id, 'algor': algor})
 
-# global real_data=[]
-# global algor_data = []
 
 real_data = ''
+flgb_data = ''
+lgb_data = ''
+xgb_data = ''
+fxgb_data = ''
+lr_data = ''
+flr_data = ''
+svm_data = ''
 algor_data = ''
 all_data = {}
 algor = ''
@@ -77,23 +97,38 @@ def query(request):
             sale_data = objects_filter[0]
 
             global real_data
-            real_data = sale_data['real_data']
-            real_data = str_to_list(real_data)
+            real_data = str_to_list(sale_data['real_data'])
+
+            global flgb_data
+            flgb_data = str_to_list(sale_data['FLGB_data'])
+            global lgb_data
+            lgb_data = str_to_list(sale_data['LGB_data'])
+            global fxgb_data
+            fxgb_data = str_to_list(sale_data['FXGB_data'])
+            global flr_data
+            flr_data = str_to_list(sale_data['FLR_data'])
+            global xgb_data
+            xgb_data = str_to_list(sale_data['XGB_data'])
+            global lr_data
+            lr_data = str_to_list(sale_data['LR_data'])
+            global svm_data
+            svm_data = str_to_list(sale_data['SVM_data'])
+
             global algor_data
-            if algor == "FOA-LightGBM":
-                algor_data = str_to_list(sale_data['FLGB_data'])
+            if algor == "LSSFOA-LightGBM":
+                algor_data = flgb_data
             elif algor == "FOA-XGB":
-                algor_data = str_to_list(sale_data['FXGB_data'])
+                algor_data = fxgb_data
             elif algor == "FOA-LR":
-                algor_data = str_to_list(sale_data['FLR_data'])
+                algor_data = flr_data
             elif algor == "LightGBM":
-                algor_data = str_to_list(sale_data['LGB_data'])
+                algor_data = lgb_data
             elif algor == "XGB":
-                algor_data = str_to_list(sale_data['XGB_data'])
+                algor_data = xgb_data
             elif algor == "LR":
-                algor_data = str_to_list(sale_data['LR_data'])
+                algor_data = lr_data
             elif algor == "SVM":
-                algor_data = str_to_list(sale_data['SVM_data'])
+                algor_data = svm_data
             elif algor == "all":
                 global all_data
                 all_data = sale_data
@@ -141,11 +176,12 @@ JsonError = json_error
 
 def str_to_list(word: str) -> List:
     word_split = word.split(",")
+    for i in range(5):
+        word_split[i] = ('%.2f' % float(word_split[i]))
     return word_split
 
 
 def line_base() -> Line:
-    # .add_yaxis("预测数据", algor_data)
     c = (
         Line()
             .add_xaxis(["week1", "week2", "week3", "week4", "week5"])
@@ -164,6 +200,9 @@ def bar_base() -> Bar:
         Bar()
             .add_xaxis(["week1", "week2", "week3", "week4", "week5"])
             .add_yaxis("real", real_data)
+            .add_yaxis("LSSFOA-LightGBM", flgb_data)
+            .add_yaxis("LightGBM", lgb_data)
+            .add_yaxis("LR", flr_data)
             .set_global_opts(title_opts=opts.TitleOpts())
             .dump_options_with_quotes()
     )
@@ -181,3 +220,5 @@ class ChartView(APIView):
 class IndexView(APIView):
     def get(self, request, *args, **kwargs):
         return HttpResponse(content=open("./templates/show_data/query.html", encoding='UTF-8').read())
+
+

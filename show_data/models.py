@@ -13,3 +13,8 @@ class DataInfo(models.Model):
     SVM_data = models.CharField(max_length=50, null=True)
     LR_data = models.CharField(max_length=50, null=True)
     real_data = models.CharField(max_length=50, null=True)
+
+
+# class IDInfo(models.Model):
+#     goods_id = models.CharField(max_length=12, db_index=True)
+#     sku_id = models.CharField(max_length=50, db_index=True)

@@ -11,5 +11,6 @@ urlpatterns = [
     path('bar/', views.ChartView.as_view(), name='query'),  # 建立/index和视图index之间的关系 必须要求有/
     path('', views.IndexView.as_view(), name='index'),
     re_path(r'^query/', views.query, name='query'),
+    # re_path(r'^relation/', views.relation, name='relation'),
     # re_path(r'^query/', views.query, name='query'),
 ]
